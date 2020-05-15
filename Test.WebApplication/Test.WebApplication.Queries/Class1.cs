@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Test.WebApplication.Bll
+namespace Test.WebApplication.Queries
 {
     public class Class1
     {
