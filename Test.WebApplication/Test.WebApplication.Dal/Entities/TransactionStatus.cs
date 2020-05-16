@@ -1,9 +1,11 @@
-﻿namespace Test.WebApplication.Dal.Entities
+﻿using Test.WebApplication.Common.Enums;
+
+namespace Test.WebApplication.Dal.Entities
 {
     public class TransactionStatus
     {
-        public int TransactionStatusId { get; set; }
-        public string Status { get; set; }
+        public TransactionStatusValue TransactionStatusId { get; set; }
+        public TransactionStatusValue Status { get; set; }
         public string UnifiedFormat { get; set; }
     }
 }
