@@ -3,13 +3,12 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using CsvHelper;
-using Test.WebApplication.Commands.FileUploader;
-using Test.WebApplication.Commands.Models;
+using Test.WebApplication.Commands.FileDeserializer;
 
 namespace Test.WebApplication.Api.Infrastructure.Files
 {
     [FileDeserializerTypeAttribute(FileType = FileType.csv)]
-    public class CsvFileDeserializer : IFileDeserializer
+    public class CsvTransactionFileDeserializer : IFileDeserializer
     {
         public IEnumerable<T> DeserializeFileContent<T>(Stream stream)
         {

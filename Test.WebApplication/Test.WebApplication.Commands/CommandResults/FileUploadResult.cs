@@ -7,10 +7,15 @@ namespace Test.WebApplication.Commands.CommandResults
     {
         public FileUploadResult()
         {
-            InvalidTransactions = new List<InvalidTransaction>();
+        }
+
+        public FileUploadResult(ResultStatus status, IReadOnlyCollection<InvalidTransaction> invalidTransactions)
+        {
+            Status = status;
+            InvalidTransactions = invalidTransactions;
         }
 
         public ResultStatus Status { get; set; }
-        public List<InvalidTransaction> InvalidTransactions { get; }
+        public IReadOnlyCollection<InvalidTransaction> InvalidTransactions { get; }
     }
 }

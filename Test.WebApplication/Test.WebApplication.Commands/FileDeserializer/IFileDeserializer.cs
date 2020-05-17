@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 
-namespace Test.WebApplication.Commands.FileUploader
+namespace Test.WebApplication.Commands.FileDeserializer
 {
     public interface IFileDeserializer
     {

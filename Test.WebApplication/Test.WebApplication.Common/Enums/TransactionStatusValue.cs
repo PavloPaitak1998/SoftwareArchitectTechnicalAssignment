@@ -11,9 +11,11 @@
 
     public static class TransactionStatusValueExtensions
     {
-        public static string ToUnifiedFormat(this TransactionStatusValue value)
+        public static string ToUnifiedFormat(this TransactionStatusValue value) => value switch
         {
-            return value.ToString().Substring(0, 1);
-        }
+            TransactionStatusValue.Finished => "D",
+            TransactionStatusValue.Failed => "R",
+            _ => value.ToString().Substring(0, 1)
+        };
     }
 }

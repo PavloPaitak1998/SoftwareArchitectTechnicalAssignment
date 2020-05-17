@@ -5,7 +5,7 @@ namespace Test.WebApplication.Commands.Models
 {
     [Serializable]
     [XmlType("Transaction")]
-    public class TransactionModel
+    public class SerializableTransaction
     {
         [XmlAttribute("id")]
         public string TransactionIdentificator { get; set; }

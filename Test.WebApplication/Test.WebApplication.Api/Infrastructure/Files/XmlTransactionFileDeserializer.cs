@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Xml.Serialization;
-using Test.WebApplication.Commands.FileUploader;
+using Test.WebApplication.Commands.FileDeserializer;
 
 namespace Test.WebApplication.Api.Infrastructure.Files
 {
     [FileDeserializerTypeAttribute(FileType = FileType.xml)]
-    public class XmlFileDeserializer : IFileDeserializer
+    public class XmlTransactionFileDeserializer : IFileDeserializer
     {
         public IEnumerable<T> DeserializeFileContent<T>(Stream stream)
         {

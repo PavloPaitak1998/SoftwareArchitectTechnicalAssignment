@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Test.WebApplication.Commands.FileUploader;
+using Test.WebApplication.Commands.FileDeserializer;
 
 namespace Test.WebApplication.Api.Infrastructure.Files
 {

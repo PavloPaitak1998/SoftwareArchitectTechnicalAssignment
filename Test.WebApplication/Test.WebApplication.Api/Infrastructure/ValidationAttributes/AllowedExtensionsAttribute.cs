@@ -2,13 +2,14 @@
 using System.IO;
 using System.Linq;
 using Microsoft.AspNetCore.Http;
+using Test.WebApplication.Commands.FileDeserializer;
 
 namespace Test.WebApplication.Api.Infrastructure.ValidationAttributes
 {
     public class AllowedExtensionsAttribute : ValidationAttribute
     {
-        private readonly string[] _extensions;
-        public AllowedExtensionsAttribute(string[] extensions)
+        private readonly FileType[] _extensions;
+        public AllowedExtensionsAttribute(params FileType[] extensions)
         {
             _extensions = extensions;
         }
@@ -19,7 +20,7 @@ namespace Test.WebApplication.Api.Infrastructure.ValidationAttributes
             {
                 var extension = Path.GetExtension(file.FileName);
 
-                if (extension != null && !_extensions.Contains(extension.ToLower()))
+                if (extension != null && !_extensions.Contains(extension.ToFileType()))
                 {
                     return new ValidationResult(GetErrorMessage());
                 }

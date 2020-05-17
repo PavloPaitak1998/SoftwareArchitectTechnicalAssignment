@@ -14,20 +14,14 @@ namespace Test.WebApplication.Api.Infrastructure.ValidationAttributes
 
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
-            if (value is IFormFile file)
-            {
-                if (file.Length > _maxFileSize)
-                {
-                    return new ValidationResult(GetErrorMessage());
-                }
-            }
-
-            return ValidationResult.Success;
+            return value is IFormFile file && file.Length > _maxFileSize
+                ? new ValidationResult(GetErrorMessage())
+                : ValidationResult.Success;
         }
 
         public string GetErrorMessage()
         {
-            return $"Maximum allowed file size is { _maxFileSize} bytes.";
+            return $"Maximum allowed file size is {_maxFileSize} bytes.";
         }
     }
 }

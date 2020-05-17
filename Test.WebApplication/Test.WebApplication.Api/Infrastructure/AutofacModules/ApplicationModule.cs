@@ -1,6 +1,6 @@
 ﻿using Autofac;
 using Test.WebApplication.Api.Infrastructure.Files;
-using Test.WebApplication.Commands.FileUploader;
+using Test.WebApplication.Commands.FileDeserializer;
 using Test.WebApplication.UnitOfWork.Implementations.UnitOfWorks;
 using Test.WebApplication.UnitOfWork.Interfaces.UnitOfWorks;
 
@@ -27,14 +27,13 @@ namespace Test.WebApplication.Api.Infrastructure.AutofacModules
                 .As<IFileDeserializerFactory>()
                 .SingleInstance();
 
-            builder.RegisterType<CsvFileDeserializer>()
+            builder.RegisterType<CsvTransactionFileDeserializer>()
                 .As<IFileDeserializer>()
                 .SingleInstance();
 
-            builder.RegisterType<XmlFileDeserializer>()
+            builder.RegisterType<XmlTransactionFileDeserializer>()
                 .As<IFileDeserializer>()
                 .SingleInstance();
         }
-
     }
 }

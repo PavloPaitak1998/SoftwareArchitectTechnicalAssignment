@@ -1,4 +1,4 @@
-﻿namespace Test.WebApplication.Commands.FileUploader
+﻿namespace Test.WebApplication.Commands.FileDeserializer
 {
     public interface IFileDeserializerFactory
     {
