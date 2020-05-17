@@ -10,6 +10,8 @@ namespace Test.WebApplication.Dal.EntityTypeConfigurations
         {
             builder.ToTable("TransactionStatus");
 
+            builder.HasKey(e => e.TransactionStatusId);
+
             builder.Property(e => e.TransactionStatusId)
                 .ValueGeneratedNever()
                 .HasConversion<int>();

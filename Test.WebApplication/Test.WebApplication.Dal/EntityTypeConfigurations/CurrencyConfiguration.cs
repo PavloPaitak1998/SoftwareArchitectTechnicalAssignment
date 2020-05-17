@@ -10,6 +10,8 @@ namespace Test.WebApplication.Dal.EntityTypeConfigurations
         {
             builder.ToTable("CurrencyCode");
 
+            builder.HasKey(e => e.CurrencyCodeId);
+
             builder.Property(e => e.CurrencyCodeId)
                 .ValueGeneratedNever()
                 .HasConversion<int>();

@@ -26,6 +26,9 @@ namespace Test.WebApplication.Dal.EntityTypeConfigurations
                 .IsRequired()
                 .HasMaxLength(50);
 
+            builder.HasIndex(u => u.TransactionIdentificator)
+                .IsUnique();
+
             builder.Property(e => e.CurrencyCodeId)
                 .HasConversion<int>();
 
