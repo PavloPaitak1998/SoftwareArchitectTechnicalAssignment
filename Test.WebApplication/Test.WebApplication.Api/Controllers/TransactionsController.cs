@@ -24,9 +24,9 @@ namespace Test.WebApplication.Api.Controllers
         [HttpPost("import")]
         public async Task<IActionResult> ImportTransactionFileAsync(IFormFile file)
         {
-            await _mediator.Send(new FileUploadCommand {File = file});
+            var res = await _mediator.Send(new FileUploadCommand {File = file});
 
-            return Ok();
+            return Ok(res);
         }
 
     }

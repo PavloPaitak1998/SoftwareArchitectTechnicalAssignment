@@ -7,10 +7,10 @@ namespace Test.WebApplication.Commands.CommandResults
     {
         public FileUploadResult()
         {
-            InValidTransactions = new List<TransactionModel>();
+            InvalidTransactions = new List<InvalidTransaction>();
         }
 
         public ResultStatus Status { get; set; }
-        public List<TransactionModel> InValidTransactions { get; }
+        public List<InvalidTransaction> InvalidTransactions { get; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using AutoMapper;
+using Test.WebApplication.Commands.Models;
 using Test.WebApplication.Common.Dtos;
 using Test.WebApplication.Dal.Entities;
 
@@ -21,6 +22,11 @@ namespace Test.WebApplication.Api.Infrastructure.AutoMapperProfiles
                 .ForMember(d => d.ModifiedBy              , opt => opt.MapFrom(s => Guid.Empty))
                 .ForMember(d => d.ModifiedDateTime        , opt => opt.MapFrom(s => DateTime.UtcNow))
                 .ReverseMap();
+
+            CreateMap<TransactionModel, InvalidTransaction>()
+                .ForMember(d => d.Amount, opt => opt.MapFrom(s => s.PaymentDetails.Amount))
+                .ForMember(d => d.CurrencyCode, opt => opt.MapFrom(s => s.PaymentDetails.CurrencyCode));
+
         }
     }
 }

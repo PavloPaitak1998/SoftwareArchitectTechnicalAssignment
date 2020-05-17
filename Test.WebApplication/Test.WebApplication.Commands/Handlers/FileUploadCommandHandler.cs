@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using MediatR;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.Extensions.Logging;
 using Test.WebApplication.Commands.CommandResults;
 using Test.WebApplication.Commands.Commands;
 using Test.WebApplication.Commands.FileUploader;
@@ -21,11 +23,14 @@ namespace Test.WebApplication.Commands.Handlers
         private readonly IUnitOfTest _unitOfTest;
         private readonly IMapper _mapper;
         private readonly IFileDeserializerFactory _fileDeserializerFactory;
-        public FileUploadCommandHandler(IUnitOfTest unitOfTest, IMapper mapper, IFileDeserializerFactory fileDeserializerFactory)
+        private readonly ILogger _log;
+
+        public FileUploadCommandHandler(IUnitOfTest unitOfTest, IMapper mapper, IFileDeserializerFactory fileDeserializerFactory, ILogger<FileUploadCommandHandler> log)
         {
             _unitOfTest = unitOfTest;
             _mapper = mapper;
             _fileDeserializerFactory = fileDeserializerFactory;
+            _log = log;
         }
 
         public async Task<FileUploadResult> Handle(FileUploadCommand request, CancellationToken cancellationToken)
@@ -37,6 +42,14 @@ namespace Test.WebApplication.Commands.Handlers
             var fileDeserializer = _fileDeserializerFactory.GetFileDeserializer(fileType);
 
             var records = fileDeserializer.DeserializeFileContent<TransactionModel>(request.File.OpenReadStream());
+
+            if (!TryValidateTransactions(records.ToList(), out var invalidTransactions))
+            {
+                var res = new FileUploadResult { Status = ResultStatus.Failed };
+                res.InvalidTransactions.AddRange(invalidTransactions);
+
+                return res;
+            }
 
             foreach (var record in records)
             {
@@ -63,6 +76,61 @@ namespace Test.WebApplication.Commands.Handlers
             await _unitOfTest.SaveChangesAsync();
 
             return new FileUploadResult {Status = ResultStatus.Success};
+        }
+
+        private bool TryValidateTransactions(List<TransactionModel> models, out ICollection<InvalidTransaction> invalidTransactions)
+        {
+            var errorList = new List<string>();
+
+            var validatingTransactions = _mapper.Map<List<InvalidTransaction>>(models);
+
+            invalidTransactions = new List<InvalidTransaction>();
+
+            foreach (var validatingTransaction in validatingTransactions)
+            {
+                var myType = validatingTransaction.GetType();
+                var props = new List<PropertyInfo>(myType.GetProperties());
+
+                foreach (PropertyInfo prop in props)
+                {
+                    if (prop.Name == nameof(InvalidTransaction.ErrorMessage))
+                    {
+                        continue;
+                    }
+
+                    var propValue = prop.GetValue(validatingTransaction) as string;
+
+                    if (string.IsNullOrEmpty(propValue))
+                    {
+                        errorList.Add($"The {prop.Name} can not be empty.");
+                    }
+                }
+
+                if (errorList.Count > 0)
+                {
+                    validatingTransaction.ErrorMessage = string.Join(" ", errorList);
+
+                    invalidTransactions.Add(validatingTransaction);
+                    errorList.Clear();
+                }
+            }
+
+            foreach (var it in invalidTransactions)
+            {
+                var invalidTransaction =  new
+                {
+                      it.TransactionIdentificator
+                    , it.Amount
+                    , it.CurrencyCode
+                    , it.TransactionDate
+                    , it.Status
+                    , it.ErrorMessage
+                };
+
+                _log.LogError("{InvalidTransaction}", invalidTransaction);
+            }
+
+            return invalidTransactions.Count == 0;
         }
     }
 }
