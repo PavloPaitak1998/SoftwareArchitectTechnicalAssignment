@@ -2,9 +2,9 @@
 using System.Threading.Tasks;
 using Test.WebApplication.UnitOfWork.Interfaces.Repositories;
 
-namespace Test.WebApplication.UnitOfWork.Interfaces.UnitOfWork
+namespace Test.WebApplication.UnitOfWork.Interfaces.UnitOfWorks
 {
-    public interface IUnitOfWork : IDisposable
+    public interface IUnitOfTest : IDisposable
     {
         ITransactionRepository TransactionRepository { get; }
         Task SaveChangesAsync();

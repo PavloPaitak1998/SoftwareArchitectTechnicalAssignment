@@ -1,28 +1,29 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 using Test.WebApplication.Dal.Db;
 using Test.WebApplication.UnitOfWork.Implementations.Repositories;
 using Test.WebApplication.UnitOfWork.Interfaces.Repositories;
-using Test.WebApplication.UnitOfWork.Interfaces.UnitOfWork;
+using Test.WebApplication.UnitOfWork.Interfaces.UnitOfWorks;
 
-namespace Test.WebApplication.UnitOfWork.Implementations.UnitOfWork
+namespace Test.WebApplication.UnitOfWork.Implementations.UnitOfWorks
 {
-    public class UnitOfWork : IUnitOfWork
+    public class UnitOfTest : IUnitOfTest
     {
         private readonly TestDbContext _context;
+        private readonly IMapper _mapper;
         private ITransactionRepository _transactionRepository;
 
-        public UnitOfWork(TestDbContext context)
+        public UnitOfTest(TestDbContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         public ITransactionRepository TransactionRepository => 
-            _transactionRepository ??= new TransactionRepository(_context);
+            _transactionRepository ??= new TransactionRepository(_context, _mapper);
 
         public async Task SaveChangesAsync()
         {
