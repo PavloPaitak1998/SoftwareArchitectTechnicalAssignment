@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Globalization;
 using AutoMapper;
+using Test.WebApplication.Api.ViewModels;
 using Test.WebApplication.Commands.Models;
 using Test.WebApplication.Common.Dtos;
+using Test.WebApplication.Common.Enums;
 using Test.WebApplication.Dal.Entities;
 
 namespace Test.WebApplication.Api.Infrastructure.AutoMapperProfiles
@@ -27,6 +30,10 @@ namespace Test.WebApplication.Api.Infrastructure.AutoMapperProfiles
                 .ForMember(d => d.Amount, opt => opt.MapFrom(s => s.PaymentDetails.Amount))
                 .ForMember(d => d.CurrencyCode, opt => opt.MapFrom(s => s.PaymentDetails.CurrencyCode));
 
+            CreateMap<TransactionDto, TransactionViewModel>()
+                .ForMember(d => d.Id, opt => opt.MapFrom(s => s.TransactionIdentificator))
+                .ForMember(d => d.Payment, opt => opt.MapFrom(s => s.Amount.ToString(CultureInfo.InvariantCulture) + " " + s.CurrencyCodeId))
+                .ForMember(d => d.Status, opt => opt.MapFrom(s => s.TransactionStatusId.ToUnifiedFormat()));
         }
     }
 }

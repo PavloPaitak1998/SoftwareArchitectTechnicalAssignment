@@ -2,6 +2,7 @@
 using Autofac;
 using MediatR;
 using Test.WebApplication.Commands.Handlers;
+using Test.WebApplication.Queries.Handlers;
 
 namespace Test.WebApplication.Api.Infrastructure.AutofacModules
 {
@@ -14,6 +15,10 @@ namespace Test.WebApplication.Api.Infrastructure.AutofacModules
 
             builder
                 .RegisterAssemblyTypes(typeof(FileUploadCommandHandler).GetTypeInfo().Assembly)
+                .AsImplementedInterfaces();
+
+            builder
+                .RegisterAssemblyTypes(typeof(TransactionsByCurrencyCodeQueryHandler).GetTypeInfo().Assembly)
                 .AsImplementedInterfaces();
 
             builder.Register<ServiceFactory>(ctx =>

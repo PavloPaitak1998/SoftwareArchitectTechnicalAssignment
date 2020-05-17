@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Test.WebApplication.Commands\Test.WebApplication.Commands.csproj" />
+    <ProjectReference Include="..\Test.WebApplication.Queries\Test.WebApplication.Queries.csproj" />
     <ProjectReference Include="..\Test.WebApplication.UnitOfWork.Implementations\Test.WebApplication.UnitOfWork.Implementations.csproj" />
   </ItemGroup>
 
