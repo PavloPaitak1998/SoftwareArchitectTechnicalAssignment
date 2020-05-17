@@ -30,7 +30,7 @@ namespace Test.WebApplication.Api.Infrastructure.ValidationAttributes
 
         public string GetErrorMessage()
         {
-            return "This file extension is not allowed!";
+            return "Unknown format";
         }
     }
 }
